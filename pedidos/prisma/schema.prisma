@@ -8,9 +8,41 @@ datasource db {
 }
 
 model Customer {
-  id String @id @default(cuid())
+  id         String  @id @default(cuid())
   externalId String
-  email String @unique
+  email      String  @unique
+  Order      Order[]
 
   @@map("customers")
+}
+
+model Product {
+  id         String       @id @default(cuid())
+  externalId String
+  code       String
+  OrderItems OrderItems[]
+
+  @@map("products")
+}
+
+model Order {
+  id         String       @id @default(cuid())
+  customer   Customer     @relation(fields: [customerId], references: [id])
+  customerId String
+  createdAt  DateTime     @default(now())
+  OrderItems OrderItems[]
+  status String
+
+  @@map("orders")
+}
+
+model OrderItems {
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+  quantity  Float
+  productId String
+  orderId   String
+
+  @@map("orderItems")
 }

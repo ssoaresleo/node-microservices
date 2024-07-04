@@ -14,7 +14,7 @@ export async function createCustomerConsumer() {
     eachMessage: async ({ message }) => {
       const messageToString = message.value!.toString();
       const customer = JSON.parse(messageToString) as CustomerConsumer;
-      // console.log(messageToString);
+      console.log(messageToString);
 
       await db.customer.create({
         data: {
